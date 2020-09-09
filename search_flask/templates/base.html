@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>{{ the_title }}</title>
+    <link rel="stylesheet" href="static/style.css" />
+</head>
+
+<body>
+    <header class="header clearfix">
+        <div class="logo">Project Title</div>
+        <nav class="menu_main">
+            <ul>
+                <li><a href="/search_akorda">akorda.kz</a></li>
+                <li><a href="#">...</a></li>
+                <li><a href="#">...</a></li>
+            </ul>
+        </nav>
+    </header>
+    {% block body %}
+    {% endblock %}
+    <footer class="footer clearfix">
+        <nav class="menu_bottom">
+            <ul>
+                <li><a href="/search_akorda">akorda.kz</a></li>
+                <li><a href="#">...</a></li>
+                <li><a href="#">...</a></li>
+            </ul>
+        </nav>
+    </footer>
+
+</body>
+
+</html>

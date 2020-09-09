@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{ the_title }}</h2>
+<div class="hero">
+    <form method="POST" action="/search_akorda">
+        <label for="query">Іздеу сұранысы:</label>
+        <input type="text" name="query" id="query" value="Сұранысты енгізіңіз..." />
+        <input type="submit" value="Іздеу" />
+        <br />
+        <br />
+        <input type="checkbox" name="tok_check_box" id="tok_check_box" />
+        <label for="tok_check_box">Токенизация</label>
+        <br />
+        <input type="checkbox" name="norm_check_box" id="norm_check_box" />
+        <label for="norm_check_box">Нормализация</label>
+        <br />
+        <input type="checkbox" name="morph_check_box" id="morph_check_box" />
+        <label for="morph_check_box">Морфологиялық талдау</label>
+    </form>
+</div>
+<br />
+{% for search_result in search_results %}
+<p class="article clearfix">
+    <br />
+    url-адрес: {{ search_result[0] }}<br />
+    {% if search_result[1] != "" %}
+    Тақырыптық бөлімі: {{ search_result[1] }}<br />
+    {% endif %}
+    Құжат тақырыбы: {{ search_result[2] }}<br />
+    "Уақыты: {{ search_result[3] }}
+</p>
+{% if not loop.last %}
+<hr />
+{% endif %}
+{% endfor %}
+{% endblock %}
