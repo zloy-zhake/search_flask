@@ -1,10 +1,10 @@
 import pickle
 from typing import Literal, Tuple, Union
 
-import fasttext
-import Levenshtein
-import numpy as np
-from scipy import spatial
+# import fasttext
+# import Levenshtein
+# import numpy as np
+# from scipy import spatial
 
 from .utils import get_model_absolute_path
 
@@ -28,48 +28,48 @@ def is_similar_levenstein(str1: str, str2: str) -> Tuple[bool, float]:
         return (True, ratio)
 
 
-with open(
-    file=get_model_absolute_path(model_path="ft_str_46K.pkl"), mode="rb"
-) as f:
-    ft_dict = pickle.load(file=f)
+# with open(
+#     file=get_model_absolute_path(model_path="ft_str_46K.pkl"), mode="rb"
+# ) as f:
+#     ft_dict = pickle.load(file=f)
 
 
-def get_fasttext_word_vec(word: str) -> np.array:
-    if word in ft_dict:
-        vec_str = ft_dict[word].split()
-        vec_to_return = [float(val) for val in vec_str]
-        return np.array(vec_to_return, dtype=np.float16)
-    else:
-        return np.zeros(shape=(300), dtype=np.float16)
+# def get_fasttext_word_vec(word: str) -> np.array:
+#     if word in ft_dict:
+#         vec_str = ft_dict[word].split()
+#         vec_to_return = [float(val) for val in vec_str]
+#         return np.array(vec_to_return, dtype=np.float16)
+#     else:
+#         return np.zeros(shape=(300), dtype=np.float16)
 
 
-def get_fasttext_text_vec(text: str) -> np.array:
-    text_tok = fasttext.tokenize(text=text)
-    text_word_vecs = [get_fasttext_word_vec(token) for token in text_tok]
-    word_vec_sum = np.sum(a=text_word_vecs, axis=0)
-    return word_vec_sum / len(text_word_vecs)
+# def get_fasttext_text_vec(text: str) -> np.array:
+#     text_tok = fasttext.tokenize(text=text)
+#     text_word_vecs = [get_fasttext_word_vec(token) for token in text_tok]
+#     word_vec_sum = np.sum(a=text_word_vecs, axis=0)
+#     return word_vec_sum / len(text_word_vecs)
 
 
-def is_similar_fasttext(str1: str, str2: str) -> Tuple[bool, float]:
-    str1_vec = get_fasttext_text_vec(text=str1)
-    str2_vec = get_fasttext_text_vec(text=str2)
+# def is_similar_fasttext(str1: str, str2: str) -> Tuple[bool, float]:
+#     str1_vec = get_fasttext_text_vec(text=str1)
+#     str2_vec = get_fasttext_text_vec(text=str2)
 
-    # Сделать fallback на левенштейна если пришли только нули
-    if np.all(str1_vec == 0) or np.all(str2_vec == 0):
-        return is_similar_levenstein(str1, str2)
+#     # Сделать fallback на левенштейна если пришли только нули
+#     if np.all(str1_vec == 0) or np.all(str2_vec == 0):
+#         return is_similar_levenstein(str1, str2)
 
-    similarity = 1 - spatial.distance.cosine(str1_vec, str2_vec)
+#     similarity = 1 - spatial.distance.cosine(str1_vec, str2_vec)
 
-    if similarity < SIMILARITY_THRESHOLD:
-        return (False, similarity)
-    else:
-        return (True, similarity)
+#     if similarity < SIMILARITY_THRESHOLD:
+#         return (False, similarity)
+#     else:
+#         return (True, similarity)
 
 
 def is_similar(
     str1: str,
     str2: str,
-    method: Union[Literal["levenshtein"], Literal["fasttext"]] = "fasttext",
+    method: Union[Literal["levenshtein"], Literal["fasttext"]] = "levenshtein",
 ) -> Tuple[bool, float]:
     """[summary] TODO
 
@@ -82,8 +82,8 @@ def is_similar(
     """
     if method == "levenshtein":
         return is_similar_levenstein(str1=str1, str2=str2)
-    elif method == "fasttext":
-        return is_similar_fasttext(str1=str1, str2=str2)
+    # elif method == "fasttext":
+    #     return is_similar_fasttext(str1=str1, str2=str2)
     else:
         return (False, 0.0)
 
