@@ -113,7 +113,6 @@ venv.bak/
 # NB check once in a while that it does not cause any problems
 *.json
 *.xml
-*.txt
 
 # .history from vscode extension
 .history/
