@@ -2,7 +2,7 @@ import pickle
 from typing import Literal, Tuple, Union
 
 # import fasttext
-# import Levenshtein
+import Levenshtein
 # import numpy as np
 # from scipy import spatial
 
