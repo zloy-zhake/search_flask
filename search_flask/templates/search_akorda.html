@@ -5,22 +5,32 @@
 <div class="hero">
     <form method="POST" action="/search_akorda">
         <label for="query">Іздеу сұранысы:</label>
-        <input type="text" name="query" id="query" value="Сұранысты енгізіңіз..." />
+        <input type="text" name="query" id="query" value="{{ search_query if set_query }}" />
         <input type="submit" value="Іздеу" />
         <br />
         <br />
-        <input type="checkbox" name="tok_check_box" id="tok_check_box" />
+        <input type="checkbox" name="tok_check_box" id="tok_check_box"
+            {{ 'checked="checked"' if set_tok_check_box else "" }} />
         <label for="tok_check_box">Токенизация</label>
         <br />
-        <input type="checkbox" name="norm_check_box" id="norm_check_box" />
-        <label for="norm_check_box">Нормализация</label>
+        <input type="checkbox" name="limit_20_check_box" id="limit_20_check_box"
+            {{ 'checked="checked"' if set_limit_20_check_box else "" }} />
+        <label for="limit_20_check_box">20 нәтижеге шектеу</label>
         <br />
-        <input type="checkbox" name="morph_check_box" id="morph_check_box" />
-        <label for="morph_check_box">Морфологиялық талдау</label>
+        <input type="checkbox" name="deduplicate_check_box" id="deduplicate_check_box"
+            {{ 'checked="checked"' if set_deduplicate_check_box else "" }} />
+        <label for="deduplicate_check_box">Дубликатсыз</label>
     </form>
 </div>
 <br />
 {% for search_result in search_results %}
+{% if loop.first %}
+<p class="article clearfix">
+    <br />
+    {{ num_results }} құжат табылды.<br />
+</p>
+<hr />
+{% endif %}
 <p class="article clearfix">
     <br />
     url-адрес: {{ search_result[0] }}<br />

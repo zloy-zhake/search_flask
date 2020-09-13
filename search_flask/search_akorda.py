@@ -2,7 +2,9 @@ import sqlite3
 from .utils import get_db_absolute_path
 
 
-def search_akorda_db(query: str, mode: str = "default") -> list:
+def search_akorda_db(
+    query: str, mode: str = "default", num_results: int = -1
+) -> list:
     """TODO"""
     if mode == "default":
         table_name = "data"
@@ -14,10 +16,14 @@ def search_akorda_db(query: str, mode: str = "default") -> list:
 
     cursor = conn.cursor()
 
-    # sql = "select id, doc_name from abay_words where doc_text LIKE '%" + query + "%';"
-    sql = f"select url, section, title, date_time from {table_name} where text LIKE '%{query}%';"
-    # sql = f"select count(*) from {table_name};"
+    sql = (
+        f"select url, section, title, date_time, text from {table_name}"
+        f" where text LIKE '%{query}%'"
+    )
+    if num_results > 0:
+        sql += f" LIMIT {num_results}"
+
     cursor.execute(sql)
-    query_result = cursor.fetchall()  # or use fetchone()
+    query_result = cursor.fetchall()
 
     return query_result
